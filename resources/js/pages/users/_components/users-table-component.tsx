@@ -42,11 +42,17 @@ export const columns: ColumnDef<User>[] = [
         cell: ({ row }) => {
             const user = row.original
 
+            const handleDelete = () => {
+                if (window.confirm('Are you sure want to delete this user??')) {
+                    router.delete(route('users.destroy', { user: user.id }))
+                }
+            }
+
             return (
                 <div className="flex gap-2">
                     <Button variant='secondary' onClick={() => router.get(route('users.show', { user: user.id }))}>View</Button>
                     <Button onClick={() => router.get(route('users.edit', { user: user.id }))}>Edit</Button>
-                    <Button variant='destructive'>Delete</Button>
+                    <Button variant='destructive' onClick={handleDelete} >Delete</Button>
                 </div>
             )
         },
