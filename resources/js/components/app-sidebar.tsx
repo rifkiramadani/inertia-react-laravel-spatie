@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Users } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, Users, Notebook } from 'lucide-react';
 import AppLogo from './app-logo';
 import { route } from 'ziggy-js'; // Impor 'route' dari ziggy-js
 
@@ -18,6 +18,11 @@ const mainNavItems: NavItem[] = [
         title: 'Users',
         href: route('users.index'),
         icon: Users,
+    },
+    {
+        title: 'Roles',
+        href: route('roles.index'),
+        icon: Notebook,
     },
 ];
 
