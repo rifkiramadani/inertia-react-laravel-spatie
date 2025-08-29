@@ -1,8 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { route } from 'ziggy-js'; // Impor 'route' dari ziggy-js
 import { DataTable, columns } from './_components/users-table-component';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,7 +23,7 @@ type UserProps = {
     users: User[]
 }
 
-export default function Dashboard({ users }: UserProps) {
+export default function Index({ users }: UserProps) {
 
     const usersData = users.map(user => ({
         id: user.id,
@@ -33,6 +35,11 @@ export default function Dashboard({ users }: UserProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <Link href={route('users.create')}>
+                    <Button className='w-25'>
+                        <Plus />Add Data
+                    </Button>
+                </Link>
                 <DataTable columns={columns} data={usersData} />
             </div>
         </AppLayout>

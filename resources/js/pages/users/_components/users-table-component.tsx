@@ -16,6 +16,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
+import { router } from "@inertiajs/react"
+import { route } from "ziggy-js"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -42,8 +44,8 @@ export const columns: ColumnDef<User>[] = [
 
             return (
                 <div className="flex gap-2">
-                    <Button variant='secondary'>View</Button>
-                    <Button>Edit</Button>
+                    <Button variant='secondary' onClick={() => router.get(route('users.show', { user: user.id }))}>View</Button>
+                    <Button onClick={() => router.get(route('users.edit', { user: user.id }))}>Edit</Button>
                     <Button variant='destructive'>Delete</Button>
                 </div>
             )
