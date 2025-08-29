@@ -27,7 +27,7 @@ type UserProps = {
 
 export default function Edit({ user }: UserProps) {
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, put, processing, errors } = useForm({
         name: user.name ?? '',
         email: user.email ?? '',
         password: ''
@@ -35,7 +35,7 @@ export default function Edit({ user }: UserProps) {
 
     function submit(e: FormEvent) {
         e.preventDefault();
-        post(route('users.store'));
+        put(route('users.update', { user: user.id }));
     }
 
 

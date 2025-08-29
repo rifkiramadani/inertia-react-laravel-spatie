@@ -37,7 +37,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        return redirect()->route('users.index')->with('success', 'Data Has Been Added Succesfully');
+        return redirect()->route('users.index')->with('success', 'Data Has Been Added Successfully.');
     }
 
     public function show(User $user)
@@ -52,5 +52,21 @@ class UserController extends Controller
         return Inertia::render('users/edit', [
             'user' => $user
         ]);
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'Data has been successfully updated.');
     }
 }
