@@ -29,8 +29,10 @@ export default function Index({ roles }: RoleProps) {
         id: role.id,
         name: role.name,
         // Map the permissions array to a string
-        permission: role.permissions.map(permission => permission.name).join(', ')
+        permissions: role.permissions.map(permission => permission.name).join(', ')
     }))
+
+    console.log(roles)
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

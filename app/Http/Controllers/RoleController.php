@@ -12,7 +12,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::with('permission')->get();
+        $roles = Role::with('permissions')->get();
         return Inertia::render('roles/index', [
             'roles' => $roles
         ]);
@@ -24,5 +24,20 @@ class RoleController extends Controller
         return Inertia::render('roles/create', [
             'permissions' => Permission::pluck("name")
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            "name" => 'required|string|unique:roles,name', // Pastikan nama role unik dan tidak kosong
+            "permissions" => 'nullable|array', // Pastikan permissions adalah array, bisa kosong
+            "permissions.*" => 'string|exists:permissions,name', // Pastikan setiap item adalah string dan ada di tabel permissions
+        ]);
+
+        $role = Role::create(["name" => $request->name]);
+        $role->syncPermissions(["permissions" => $request->permissions ?? []]);
+
+        return redirect()->route('roles.index')->with('success', 'Role has been added.');
     }
 }

@@ -24,7 +24,7 @@ import { route } from "ziggy-js"
 export type Permission = {
     id: number
     name: string
-    permission: string
+    permissions: string
 }
 
 export const columns: ColumnDef<Permission>[] = [
@@ -34,7 +34,18 @@ export const columns: ColumnDef<Permission>[] = [
     },
     {
         accessorKey: "permissions",
-        header: "Permission",
+        header: "Permissions",
+        // cell: ({ row }) => {
+        //     // Correctly access the 'permissions' property (plural)
+        //     const permissions = row.original.permissions;
+
+        //     // Check if permissions is a valid array before mapping
+        //     if (Array.isArray(permissions)) {
+        //         // Map over the permissions array and join the names with commas
+        //         const permissionNames = permissions.map(p => p.name).join(', ');
+        //         return <span>{permissionNames}</span>;
+        //     }
+        // }
     },
     {
         id: "actions",

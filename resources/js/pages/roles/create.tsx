@@ -22,18 +22,29 @@ type PermissionProps = {
     permissions: string[]
 }
 
+// Define the shape of your form data
+type FormData = {
+    name: string;
+    permissions: string[];
+}
+
 export default function Create({ permissions }: PermissionProps) {
-
-    console.log(permissions)
-
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm<FormData>({
         name: '',
-        permission: []
+        permissions: []
     })
+
+    function handlePermissionChecked(permissionName: string, isChecked: string | boolean) {
+        if (isChecked) {
+            setData("permissions", [...data.permissions, permissionName])
+        } else {
+            setData('permissions', data.permissions.filter(name => name !== permissionName));
+        }
+    }
 
     function submit(e: FormEvent) {
         e.preventDefault();
-        post(route('users.store'));
+        post(route('roles.store'));
     }
 
 
@@ -56,13 +67,16 @@ export default function Create({ permissions }: PermissionProps) {
                             {permissions.map((permission) => (
                                 <div className='row gap-2'>
                                     <Checkbox
+                                        key={permission}
                                         id={permission}
                                         value={permission}
+                                        name='permissions'
+                                        onCheckedChange={checked => handlePermissionChecked(permission, checked)}
                                     />
                                     <Label htmlFor={permission}>{permission}</Label>
                                 </div>
                             ))}
-                            <InputError message={errors.permission} />
+                            <InputError message={errors.permissions} />
                         </div>
                         <div>
                             <Button type='submit' className='w-20' disabled={processing}>Submit</Button>
