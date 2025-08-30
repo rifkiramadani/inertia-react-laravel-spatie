@@ -1,4 +1,4 @@
-{
+    {
     "compilerOptions": {
         /* Visit https://aka.ms/tsconfig to read more about this file */
 
@@ -113,5 +113,10 @@
         },
         "jsx": "react-jsx"
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.tsx"]
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.d.ts",
+        "resources/js/**/*.tsx",
+        "resources/js/types/global.d.ts" // Add this line
+    ]
 }

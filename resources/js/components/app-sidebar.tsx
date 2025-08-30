@@ -3,10 +3,11 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, Users, Notebook } from 'lucide-react';
 import AppLogo from './app-logo';
 import { route } from 'ziggy-js'; // Impor 'route' dari ziggy-js
+import { PageProps } from '@inertiajs/core';
 
 const mainNavItems: NavItem[] = [
     {
@@ -23,6 +24,7 @@ const mainNavItems: NavItem[] = [
         title: 'Roles',
         href: route('roles.index'),
         icon: Notebook,
+        roles: ['Manager', 'Vice Manager']
     },
 ];
 
@@ -40,6 +42,18 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { auth } = usePage<PageProps>().props;
+    const userRoles = auth.user?.roles || [];
+
+    // Filter the items and store the result in a new variable, e.g., `filteredNavItems`
+    const filteredNavItems = mainNavItems.filter(item => {
+        // If the item doesn't have a specific role requirement, it's visible
+        if (!item.roles) {
+            return true;
+        }
+        // Check if the user has any of the required roles
+        return item.roles.some(role => userRoles.includes(role));
+    });
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -55,7 +69,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={filteredNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

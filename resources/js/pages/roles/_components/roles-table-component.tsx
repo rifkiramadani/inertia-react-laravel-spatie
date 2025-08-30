@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { router } from "@inertiajs/react"
 import { route } from "ziggy-js"
+import { Can } from "@/components/can"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -64,9 +65,11 @@ export const columns: ColumnDef<Permission>[] = [
 
             return (
                 <div className="flex gap-2">
-                    <Button variant='secondary' onClick={() => router.get(route('roles.show', { role: role.id }))}>View</Button>
-                    <Button onClick={() => router.get(route('roles.edit', { role: role.id }))}>Edit</Button>
-                    <Button variant='destructive' onClick={handleDelete} >Delete</Button>
+                    <Can role={['Manager', 'Vice Manager']}>
+                        <Button variant='secondary' onClick={() => router.get(route('roles.show', { role: role.id }))}>View</Button>
+                        <Button onClick={() => router.get(route('roles.edit', { role: role.id }))}>Edit</Button>
+                        <Button variant='destructive' onClick={handleDelete} >Delete</Button>
+                    </Can>
                 </div>
             )
         },
