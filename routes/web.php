@@ -24,7 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix('roles')->name('roles.')->group(function () {
+    Route::middleware(['role:Manager|Vice Manager'])->prefix('roles')->name('roles.')->group(function () {
         Route::get('/', [RoleController::class, 'index'])->name('index');
         Route::get('/create', [RoleController::class, 'create'])->name('create');
         Route::post('/', [RoleController::class, 'store'])->name('store');

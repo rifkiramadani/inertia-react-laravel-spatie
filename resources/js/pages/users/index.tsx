@@ -5,6 +5,7 @@ import { route } from 'ziggy-js'; // Impor 'route' dari ziggy-js
 import { DataTable, columns } from './_components/users-table-component';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
+import { Can } from '@/components/can';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -41,11 +42,13 @@ export default function Index({ users }: UserProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <Link href={route('users.create')}>
-                    <Button className='w-25'>
-                        <Plus />Add Data
-                    </Button>
-                </Link>
+                <Can permission="user.create">
+                    <Link href={route('users.create')}>
+                        <Button className='w-25'>
+                            <Plus />Add Data
+                        </Button>
+                    </Link>
+                </Can>
                 <DataTable columns={columns} data={usersData} />
             </div>
         </AppLayout>

@@ -72,8 +72,12 @@ export const columns: ColumnDef<User>[] = [
                     <Can permission="user.view">
                         <Button variant='secondary' onClick={() => router.get(route('users.show', { user: user.id }))}>View</Button>
                     </Can>
-                    <Button onClick={() => router.get(route('users.edit', { user: user.id }))}>Edit</Button>
-                    <Button variant='destructive' onClick={handleDelete} >Delete</Button>
+                    <Can permission="user.update">
+                        <Button onClick={() => router.get(route('users.edit', { user: user.id }))}>Edit</Button>
+                    </Can>
+                    <Can permission="user.delete">
+                        <Button variant='destructive' onClick={handleDelete} >Delete</Button>
+                    </Can>
                 </div>
             )
         },
