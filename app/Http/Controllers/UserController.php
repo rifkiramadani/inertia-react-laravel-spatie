@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::with('roles')->get();
 
         return Inertia::render('users/index', [
             'users' => $users
@@ -20,7 +21,10 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia::render('users/create');
+        $roles = Role::pluck('name');
+        return Inertia::render('users/create', [
+            'roles' => $roles
+        ]);
     }
 
     public function store(Request $request)
@@ -28,14 +32,17 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'roles' => 'required'
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
+
+        $user->syncRoles([$request->roles]);
 
         return redirect()->route('users.index')->with('success', 'Data Has Been Added Successfully.');
     }
@@ -50,7 +57,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         return Inertia::render('users/edit', [
-            'user' => $user
+            'user' => $user,
+            'userRole' => $user->roles()->pluck('name'),
+            'roles' => Role::pluck('name')
         ]);
     }
 
@@ -59,6 +68,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required',
+            'roles' => 'required'
         ]);
 
         $user->update([
@@ -66,6 +76,8 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
+
+        $user->syncRoles([$request->roles]);
 
         return redirect()->route('users.index')->with('success', 'Data has been successfully updated.');
     }

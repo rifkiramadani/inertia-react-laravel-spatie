@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { FormEvent } from 'react';
 import InputError from '@/components/input-error';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -15,13 +16,34 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Create() {
 
-    const { data, setData, post, processing, errors } = useForm({
+type RoleProps = {
+    roles: string[]
+}
+
+type FormData = {
+    name: string,
+    email: string,
+    password: string,
+    roles: string[]
+}
+
+export default function Create({ roles }: RoleProps) {
+
+    const { data, setData, post, processing, errors } = useForm<FormData>({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        roles: []
     })
+
+    function handleRoleChecked(roleName: string, isChecked: string | boolean) {
+        if (isChecked) {
+            setData("roles", [...data.roles, roleName])
+        } else {
+            setData('roles', data.roles.filter(name => name !== roleName));
+        }
+    }
 
     function submit(e: FormEvent) {
         e.preventDefault();
@@ -52,6 +74,22 @@ export default function Create() {
                             <Label htmlFor="password">Password</Label>
                             <Input type="password" id="password" name="password" value={data.password} placeholder="Password" onChange={e => (setData('password', e.target.value))} />
                             <InputError message={errors.password} />
+                        </div>
+                        <div className='mb-3'>
+                            <Label htmlFor="role">Select Roles</Label>
+                            {roles.map((role) => (
+                                <div className='row gap-2'>
+                                    <Checkbox
+                                        key={role}
+                                        id={role}
+                                        value={role}
+                                        name='roles'
+                                        onCheckedChange={checked => handleRoleChecked(role, checked)}
+                                    />
+                                    <Label htmlFor={role}>{role}</Label>
+                                </div>
+                            ))}
+                            <InputError message={errors.roles} />
                         </div>
                         <div>
                             <Button type='submit' className='w-20' disabled={processing}>Submit</Button>

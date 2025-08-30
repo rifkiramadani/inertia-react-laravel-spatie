@@ -17,6 +17,9 @@ type User = {
     id: number,
     name: string,
     email: string
+    roles: {
+        name: string
+    }[]
 }
 
 type UserProps = {
@@ -25,10 +28,13 @@ type UserProps = {
 
 export default function Index({ users }: UserProps) {
 
+    console.log(users)
+
     const usersData = users.map(user => ({
         id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        roles: user.roles
     }))
 
     return (

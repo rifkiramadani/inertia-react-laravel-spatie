@@ -25,6 +25,9 @@ export type User = {
     id: number
     name: string
     email: string
+    roles: {
+        name: string
+    }[]
 }
 
 export const columns: ColumnDef<User>[] = [
@@ -35,6 +38,21 @@ export const columns: ColumnDef<User>[] = [
     {
         accessorKey: "email",
         header: "Email",
+    },
+    {
+        id: "roles",
+        header: "Roles",
+        cell: ({ row }) => {
+            const roles = row.original.roles
+
+            return <div className="flex flex-wrap gap-2"> {/* Gunakan flexbox untuk menata kotak-kotak */}
+                {roles.map((role, index) => (
+                    <span key={index} className="bg-green-300 rounded p-1 font-semibold text-green-900">
+                        {role.name}
+                    </span>
+                ))}
+            </div>
+        }
     },
     {
         id: "actions",
