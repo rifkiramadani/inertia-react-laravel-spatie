@@ -10,8 +10,8 @@ import InputError from '@/components/input-error';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Create User',
-        href: route('users.create'),
+        title: 'Edit User',
+        href: route('users.index'),
     },
 ];
 

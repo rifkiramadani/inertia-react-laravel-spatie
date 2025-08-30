@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Edit Role',
-        href: route('roles.edit'),
+        href: route('roles.index'),
     },
 ];
 

@@ -61,7 +61,7 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            "name" => 'required|string|unique:roles,name', // Pastikan nama role unik dan tidak kosong
+            "name" => 'required|string|unique:roles,name,' . $role->id,
             "permissions" => 'nullable|array', // Pastikan permissions adalah array, bisa kosong
             "permissions.*" => 'string|exists:permissions,name', // Pastikan setiap item adalah string dan ada di tabel permissions
         ]);
