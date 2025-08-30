@@ -28,8 +28,7 @@ export default function Index({ roles }: RoleProps) {
     const rolesData = roles.map(role => ({
         id: role.id,
         name: role.name,
-        // Map the permissions array to a string
-        permissions: role.permissions.map(permission => permission.name).join(', ')
+        permissions: role.permissions
     }))
 
     console.log(roles)

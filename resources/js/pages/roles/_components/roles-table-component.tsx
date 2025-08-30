@@ -24,7 +24,9 @@ import { route } from "ziggy-js"
 export type Permission = {
     id: number
     name: string
-    permissions: string
+    permissions: {
+        name: string
+    }[]
 }
 
 export const columns: ColumnDef<Permission>[] = [
@@ -35,17 +37,18 @@ export const columns: ColumnDef<Permission>[] = [
     {
         accessorKey: "permissions",
         header: "Permissions",
-        // cell: ({ row }) => {
-        //     // Correctly access the 'permissions' property (plural)
-        //     const permissions = row.original.permissions;
+        cell: ({ row }) => {
+            // Correctly access the 'permissions' property (plural)
+            const permissions = row.original.permissions;
 
-        //     // Check if permissions is a valid array before mapping
-        //     if (Array.isArray(permissions)) {
-        //         // Map over the permissions array and join the names with commas
-        //         const permissionNames = permissions.map(p => p.name).join(', ');
-        //         return <span>{permissionNames}</span>;
-        //     }
-        // }
+            return <div className="flex flex-wrap gap-2"> {/* Gunakan flexbox untuk menata kotak-kotak */}
+                {permissions.map((permission, index) => (
+                    <span key={index} className="bg-green-500 rounded p-1 font-semibold text-black">
+                        {permission.name}
+                    </span>
+                ))}
+            </div>
+        }
     },
     {
         id: "actions",
