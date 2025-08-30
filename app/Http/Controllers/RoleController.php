@@ -40,4 +40,27 @@ class RoleController extends Controller
 
         return redirect()->route('roles.index')->with('success', 'Role has been added.');
     }
+
+    public function edit(Role $role)
+    {
+        return Inertia::render('roles/edit', [
+            'role' => $role,
+            'rolePermissions' => $role->permissions()->pluck('name'),
+            'permissions' => Permission::pluck("name")
+        ]);
+    }
+
+    public function update(Request $request, Role $role)
+    {
+        $request->validate([
+            "name" => 'required|string|unique:roles,name', // Pastikan nama role unik dan tidak kosong
+            "permissions" => 'nullable|array', // Pastikan permissions adalah array, bisa kosong
+            "permissions.*" => 'string|exists:permissions,name', // Pastikan setiap item adalah string dan ada di tabel permissions
+        ]);
+
+        $role->update(["name" => $request->name]);
+        $role->syncPermissions(["permissions" => $request->permissions ?? []]);
+
+        return redirect()->route('roles.index')->with('success', 'Role has been updated.');
+    }
 }

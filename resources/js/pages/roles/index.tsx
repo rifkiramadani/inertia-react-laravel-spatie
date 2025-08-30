@@ -31,7 +31,7 @@ export default function Index({ roles }: RoleProps) {
         permissions: role.permissions
     }))
 
-    console.log(roles)
+    // console.log(rolesData)
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

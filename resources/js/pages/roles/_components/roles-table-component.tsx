@@ -43,7 +43,7 @@ export const columns: ColumnDef<Permission>[] = [
 
             return <div className="flex flex-wrap gap-2"> {/* Gunakan flexbox untuk menata kotak-kotak */}
                 {permissions.map((permission, index) => (
-                    <span key={index} className="bg-green-500 rounded p-1 font-semibold text-black">
+                    <span key={index} className="bg-green-300 rounded p-1 font-semibold text-green-900">
                         {permission.name}
                     </span>
                 ))}
