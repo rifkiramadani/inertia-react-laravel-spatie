@@ -58,7 +58,7 @@ export const columns: ColumnDef<Permission>[] = [
 
             const handleDelete = () => {
                 if (window.confirm('Are you sure want to delete this role??')) {
-                    router.delete(route('route.destroy', { role: role.id }))
+                    router.delete(route('roles.destroy', { role: role.id }))
                 }
             }
 

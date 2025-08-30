@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Create User',
-        href: route('users.create'),
+        title: 'Show User',
+        href: route('users.index'),
     },
 ];
 

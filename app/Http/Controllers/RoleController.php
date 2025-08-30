@@ -41,6 +41,14 @@ class RoleController extends Controller
         return redirect()->route('roles.index')->with('success', 'Role has been added.');
     }
 
+    public function show(Role $role)
+    {
+        return Inertia::render('roles/show', [
+            'role' => $role, // Tambahkan eager loading untuk mendapatkan permissions
+            'rolePermissions' => $role->permissions()->pluck('name') // Akses relasi permissions yang sudah dimuat
+        ]);
+    }
+
     public function edit(Role $role)
     {
         return Inertia::render('roles/edit', [
@@ -62,5 +70,11 @@ class RoleController extends Controller
         $role->syncPermissions(["permissions" => $request->permissions ?? []]);
 
         return redirect()->route('roles.index')->with('success', 'Role has been updated.');
+    }
+
+    public function destroy(Role $role)
+    {
+        $role->delete();
+        return redirect()->route('roles.index')->with('success', 'Role has been deleted');
     }
 }
